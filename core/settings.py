@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     #Frameworks
     "rest_framework",
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
@@ -148,4 +149,3 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
 }
 
-TELEGRAM_BOT_TOKEN = config("BOT_TOKEN")
