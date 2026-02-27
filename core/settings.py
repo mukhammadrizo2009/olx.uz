@@ -40,13 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     #Apps
-    'app.orders.apps.OrdersConfig',
-    'app.products.apps.ProductsConfig',
-    'app.reviews.apps.ReviewsConfig',
-    'app.users.apps.UsersConfig',
+    'apps.orders.apps.OrdersConfig',
+    'apps.products.apps.ProductsConfig',
+    'apps.reviews.apps.ReviewsConfig',
+    'apps.users.apps.UsersConfig',
+    'apps.categories.apps.CategoriesConfig',
+    'apps.stores.apps.StoresConfig',
     
     #Frameworks
-    "rest_framework"
+    "rest_framework",
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -118,7 +121,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -144,3 +147,5 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "ROTATE_REFRESH_TOKENS": True,
 }
+
+TELEGRAM_BOT_TOKEN = config("BOT_TOKEN")
