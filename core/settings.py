@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'apps.reviews.apps.ReviewsConfig',
     'apps.users.apps.UsersConfig',
     'apps.categories.apps.CategoriesConfig',
-    'apps.stores.apps.StoresConfig',
+    
     
     #Frameworks
     "rest_framework",
