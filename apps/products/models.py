@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from datetime import timedelta
 
+from apps.categories.models import Category
+
 User = get_user_model()
 
 class Product(models.Model):
@@ -38,7 +40,7 @@ class Product(models.Model):
     )
 
     category = models.ForeignKey(
-        'Category',
+        Category,
         on_delete=models.CASCADE,
         related_name='products'
     )
