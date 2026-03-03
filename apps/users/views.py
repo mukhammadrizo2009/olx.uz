@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenRefreshView
+from drf_spectacular.utils import extend_schema
 
 from .serializers import TelegramAuthSerializer, UserProfileSerializer, SellerProfileSerializer
 from .services import telegram_login
@@ -16,7 +17,7 @@ from .models import SellerProfile
 
 User = get_user_model()
 
-
+@extend_schema(tags=["Register & Login"])
 class TelegramLoginView(APIView):
 
     def post(self, request):
@@ -32,8 +33,9 @@ class TelegramLoginView(APIView):
             "access": result["access"],
             "refresh": result["refresh"],
         })
+       
         
-        
+@extend_schema(tags=["Profile"])       
 class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -42,8 +44,9 @@ class ProfileView(APIView):
             "telegram_id": request.user.telegram_id,
             "role": request.user.role
         })
+   
     
-        
+@extend_schema(tags=["Register & Login"])       
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -56,11 +59,13 @@ class LogoutView(APIView):
         except Exception as e:
             return Response({"error": "Invalid Token."}, status=status.HTTP_400_BAD_REQUEST)
 
-        
+
+@extend_schema(tags=["Register & Login"])       
 class RefreshTokenView(TokenRefreshView):
     pass
 
 
+@extend_schema(tags=["Profile"])
 class MeView(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = UserProfileSerializer
@@ -69,6 +74,7 @@ class MeView(generics.RetrieveUpdateAPIView):
         return self.request.user
 
 
+@extend_schema(tags=["Profile"])
 class UpgradeToSellerView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -89,11 +95,14 @@ class UpgradeToSellerView(APIView):
         }, status=status.HTTP_200_OK)
 
 
+@extend_schema(tags=["Profile"])
 class SellerDetailView(generics.RetrieveAPIView):
     queryset = SellerProfile.objects.all()
     serializer_class = SellerProfileSerializer
     permission_classes = [AllowAny]
+    
 
+@extend_schema(tags=["Profile"])
 class SellerProductsView(APIView):
     permission_classes = [AllowAny]
 

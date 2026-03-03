@@ -4,10 +4,11 @@ from .models import User, SellerProfile
 
 
 class TelegramAuthSerializer(serializers.Serializer):
-    telegram_id = serializers.IntegerField()
+    telegram_id = serializers.CharField()
     username = serializers.CharField(required=False, allow_blank=True)
     first_name = serializers.CharField(required=False, allow_blank=True)
     last_name = serializers.CharField(required=False, allow_blank=True)
+    photo_url = serializers.URLField(required=False, allow_blank=True)
     
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
