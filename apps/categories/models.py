@@ -14,7 +14,7 @@ class Category(models.Model):
     name = models.CharField(max_length=128)
     slug = models.SlugField(unique=True, blank=True)
     icon = models.ImageField(
-        upload_to='categories/logos/',
+        upload_to='media/categories/logos/',
         blank=True, null=True
         )
     description = models.TextField(blank=True)

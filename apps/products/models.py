@@ -85,7 +85,7 @@ class ProductImage(models.Model):
         related_name='images'
     )
 
-    image = models.ImageField(upload_to='products/')
+    image = models.ImageField(upload_to='media/products/')
     order = models.PositiveIntegerField(default=0)
     is_main = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
