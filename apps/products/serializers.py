@@ -93,6 +93,6 @@ class FavoriteSerializer(serializers.ModelSerializer):
 
         if created:
             product.favourite_count += 1
-            product.save()
+            product.save(update_fields=['favourite_count'])
 
         return favorite

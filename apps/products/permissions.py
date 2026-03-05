@@ -9,3 +9,8 @@ class IsSeller(BasePermission):
 class IsProductOwner(BasePermission):
     def has_object_permission(self, request, view, obj):
         return obj.seller == request.user
+    
+    
+class IsFavoriteOwner(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user

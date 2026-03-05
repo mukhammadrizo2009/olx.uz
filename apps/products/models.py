@@ -75,7 +75,8 @@ class Product(models.Model):
 
     expires_at = models.DateTimeField(default=default_expiry)
     
-
+    def __str__(self):
+        return f"{self.title}"
 
 class ProductImage(models.Model):
 
@@ -98,6 +99,8 @@ class ProductImage(models.Model):
             ).update(is_main=False)
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return f"{self.product}"
 
 class Favorite(models.Model):
 
@@ -117,3 +120,6 @@ class Favorite(models.Model):
 
     class Meta:
         unique_together = (('user', 'product'),)
+        
+    def __str__(self):
+        return f"{self.user} | {self.product}"

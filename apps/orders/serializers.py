@@ -1,98 +1,38 @@
 from rest_framework import serializers
 from .models import Order
 
-class OrderCreateSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Order
-        fields = [
-            'id',
-            'product',
-            'final_price',
-            'meeting_location',
-            'meeting_time',
-            'notes',
-            'created_at'
-        ]
-        read_only_fields = ['id', 'created_at', 'final_price']
-
-    def validate(self, attrs):
-        request = self.context['request']
-        product = attrs['product']
-
-        if product.seller == request.user:
-            raise serializers.ValidationError(
-                "O'zingizning mahsulotingizni sotib olmaysiz."
-            )
-
-        return attrs
+class OrderCreateSerializer(serializers.Serializer):
+    product_id = serializers.IntegerField()
+    notes = serializers.CharField(required=False)
 
     def create(self, validated_data):
-        request = self.context['request']
-        product = validated_data['product']
+        from apps.products.models import Product
+        from apps.orders.order_service import OrderService
 
-        return Order.objects.create(
-            buyer=request.user,
-            seller=product.seller,
+        product = Product.objects.get(id=validated_data["product_id"])
+        buyer = self.context["request"].user
+
+        return OrderService.create_order(
             product=product,
-            final_price=product.price,
-            **validated_data
+            buyer=buyer,
+            notes=validated_data.get("notes", "")
         )
         
-class OrderStatusUpdateSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Order
-        fields = [
-            'status',
-            'meeting_location',
-            'meeting_time',
-            'final_price'
-        ]
-
-    def validate(self, attrs):
-        request = self.context['request']
-        order = self.instance
-
-        user = request.user
-
-        if user != order.seller and user != order.buyer:
-            raise serializers.ValidationError("Ruxsat yo'q.")
-
-        new_status = attrs.get('status')
-
-        # Seller rules
-        if user == order.seller:
-            if order.status != Order.Status.WAITING:
-                raise serializers.ValidationError("Seller faqat WAITING holatda o'zgartira oladi.")
-
-            if new_status not in [Order.Status.AGREED, Order.Status.REJECT]:
-                raise serializers.ValidationError("Noto'g'ri status.")
-
-        # Buyer rules
-        if user == order.buyer:
-            if order.status != Order.Status.AGREED:
-                raise serializers.ValidationError("Buyer faqat AGREED holatda o'zgartira oladi.")
-
-            if new_status not in [Order.Status.PURCHASED, Order.Status.REJECT]:
-                raise serializers.ValidationError("Noto'g'ri status.")
-
-        return attrs
+class OrderStatusUpdateSerializer(serializers.Serializer):
+    status = serializers.ChoiceField(choices=Order.Status.choices)
+    meeting_location = serializers.CharField(required=False)
+    meeting_time = serializers.DateTimeField(required=False)
+    final_price = serializers.DecimalField(max_digits=12, decimal_places=2, required=False)
 
     def update(self, instance, validated_data):
-        instance = super().update(instance, validated_data)
+        from apps.orders.order_service import OrderService
 
-        # Agar sotib olinsa
-        if instance.status == Order.Status.PURCHASED:
-            product = instance.product
-            product.status = "SOLD"
-            product.save()
-
-            seller = instance.seller
-            seller.total_sales += 1
-            seller.save()
-
-        return instance
+        return OrderService.change_status(
+            order=instance,
+            user=self.context["request"].user,
+            new_status=validated_data["status"],
+            data=validated_data
+        )
     
 class OrderListSerializer(serializers.ModelSerializer):
     product_title = serializers.CharField(source='product.title', read_only=True)
