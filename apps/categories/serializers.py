@@ -1,8 +1,14 @@
 from rest_framework import serializers
 from .models import Category
 
+class ChildCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'slug']
+
+
 class CategorySerializer(serializers.ModelSerializer):
-    children = serializers.SerializerMethodField()
+    children = ChildCategorySerializer(many=True, read_only=True)
 
     class Meta:
         model = Category
@@ -11,16 +17,6 @@ class CategorySerializer(serializers.ModelSerializer):
             'parent',
             'name',
             'slug',
-            'icon',
-            'description',
-            'is_active',
-            'order_num',
-            'children',
-            'created_at'
+            'children'
         ]
-        read_only_fields = ['slug']
-
-    def get_children(self, obj):
-        if obj.children.exists():
-            return CategorySerializer(obj.children.all(), many=True).data
-        return []
+        

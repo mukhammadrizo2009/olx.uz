@@ -14,7 +14,7 @@ class Category(models.Model):
     name = models.CharField(max_length=128)
     slug = models.SlugField(unique=True, blank=True)
     icon = models.ImageField(
-        upload_to='media/categories/logos/',
+        upload_to='categories/logos/',
         blank=True, null=True
         )
     description = models.TextField(blank=True)
@@ -27,6 +27,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Category'
         verbose_name_plural = 'Categories'
+        ordering = ['order_num']
     
     def __str__(self):
         return f"{self.name}"
