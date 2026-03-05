@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, MaxValueValidator
 from apps.orders.models import Order
@@ -27,11 +28,19 @@ class Review(models.Model):
     comment = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
-    def save(self, *args, **kwargs):
-        if not self.seller:
-            self.seller = self.order.seller
 
-        super().save(*args, **kwargs)
+def save(self, *args, **kwargs):
+    if not self.seller:
+        self.seller = self.order.seller
+
+    super().save(*args, **kwargs)
+
+    avg_rating = Review.objects.filter(
+        seller=self.seller
+    ).aggregate(avg=Avg("rating"))["avg"] or 0
+
+    self.seller.rating = round(avg_rating, 2)
+    self.seller.save(update_fields=["rating"])
         
     def __str__(self):
         return f"{self.order} | {self.rating}"

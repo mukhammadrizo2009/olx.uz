@@ -30,7 +30,7 @@ class OrderStatusUpdateSerializer(serializers.Serializer):
         return OrderService.change_status(
             order=instance,
             user=self.context["request"].user,
-            new_status=validated_data["status"],
+            new_status = validated_data.get("status"),
             data=validated_data
         )
     
