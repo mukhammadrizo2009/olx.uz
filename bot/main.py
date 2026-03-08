@@ -17,7 +17,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "first_name": user.first_name or "",
         "last_name": user.last_name or "",
     }
-
+    
     try:
         response = requests.post(BACKEND_URL, json=data)
 
@@ -37,5 +37,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 app = ApplicationBuilder().token(BOT_TOKEN).build()
 app.add_handler(CommandHandler("start", start))
+
 
 app.run_polling()
