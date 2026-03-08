@@ -16,6 +16,7 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id', 'created_at']
 
+
     def validate(self, attrs):
         request = self.context.get('request')
         order = attrs.get('order')
@@ -36,6 +37,7 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
             )
 
         return attrs
+
 
     def create(self, validated_data):
         request = self.context.get('request')

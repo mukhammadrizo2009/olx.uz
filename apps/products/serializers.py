@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Product, ProductImage
+
 from apps.categories.serializers import CategorySerializer
+
+from .models import Product, ProductImage
 
 User = get_user_model()
 

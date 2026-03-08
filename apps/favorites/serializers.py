@@ -8,6 +8,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
         fields = ['id', 'product', 'created_at']
         read_only_fields = ['created_at']
 
+
     def create(self, validated_data):
         user = self.context['request'].user
         product = validated_data['product']

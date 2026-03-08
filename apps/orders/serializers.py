@@ -34,6 +34,7 @@ class OrderStatusUpdateSerializer(serializers.Serializer):
             data=validated_data
         )
     
+    
 class OrderListSerializer(serializers.ModelSerializer):
     product_title = serializers.CharField(source='product.title', read_only=True)
     product_image = serializers.ImageField(source='product.main_image.image', read_only=True)
