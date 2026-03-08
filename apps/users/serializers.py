@@ -18,6 +18,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ['id', 'telegram_id', 'username', 'first_name', 'last_name', 'phone_number', 'role']
         read_only_fields = ['id', 'telegram_id', 'role']
 
+
 class SellerProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = SellerProfile
