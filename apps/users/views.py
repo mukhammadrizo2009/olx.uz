@@ -104,6 +104,7 @@ class SellerDetailView(generics.RetrieveAPIView):
     permission_classes = [AllowAny]
     
 
+
 @extend_schema(tags=["Profile"])
 class SellerProductsView(APIView):
     permission_classes = [AllowAny]
