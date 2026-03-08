@@ -4,6 +4,7 @@ from .models import Review
 from .serializers import ReviewSerializer, ReviewCreateSerializer
 from drf_spectacular.utils import extend_schema
 
+
 @extend_schema(tags=["Reviews"])
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()

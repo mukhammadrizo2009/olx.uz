@@ -1,10 +1,13 @@
 from rest_framework import generics
+from drf_spectacular.utils import extend_schema
+
+from apps.products.models import Product
+from apps.products.serializers import ProductListSerializer
+
 from .permissions import IsAdminOrReadOnly
 from .models import Category
 from .serializers import CategorySerializer
-from apps.products.models import Product
-from apps.products.serializers import ProductListSerializer
-from drf_spectacular.utils import extend_schema
+
 
 @extend_schema(tags=["Categories"])
 class Categories(generics.ListCreateAPIView):

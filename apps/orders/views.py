@@ -21,7 +21,8 @@ class OrderView(generics.ListCreateAPIView):
             return OrderCreateSerializer
         return OrderListSerializer
     
-    
+
+
 @extend_schema(tags=["Order"])
 class OrderDetailView(generics.RetrieveUpdateAPIView):
     serializer_class = [OrderDetailSerializer]

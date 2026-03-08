@@ -6,11 +6,7 @@ from django.utils import timezone
 from django.db.models import F
 
 from .models import Product
-from .serializers import (
-    ProductListSerializer,
-    ProductDetailSerializer,
-    ProductCreateSerializer
-)
+from .serializers import ( ProductListSerializer, ProductDetailSerializer, ProductCreateSerializer)
 from .permissions import IsSellerOrReadOnly, IsOwner
 
 @extend_schema(tags=["Products"])

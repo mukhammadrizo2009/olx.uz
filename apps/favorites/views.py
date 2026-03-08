@@ -1,8 +1,10 @@
 from rest_framework import generics, permissions
+from drf_spectacular.utils import extend_schema
+
 from .models import Favorite
 from .serializers import FavoriteSerializer
 from .permissions import IsFavoriteOwner
-from drf_spectacular.utils import extend_schema
+
 
 @extend_schema(tags=["Favourites"])
 class FavoriteListCreateView(generics.ListCreateAPIView):
