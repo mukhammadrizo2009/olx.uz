@@ -45,8 +45,6 @@ class OrderService:
             if new_status == Order.Status.AGREED:
                 if not data.get("meeting_location"):
                     raise ValidationError("Uchrashuv joyi majburiy.")
-                if not data.get("meeting_time"):
-                    raise ValidationError("Uchrashuv vaqti majburiy.")
 
                 order.meeting_location = data.get("meeting_location")
                 order.meeting_time = data.get("meeting_time")

@@ -28,6 +28,8 @@ class Review(models.Model):
     comment = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return f"{self.reviewer} | {self.rating}"
 
     def save(self, *args, **kwargs):
         if not self.seller:
@@ -40,7 +42,7 @@ class Review(models.Model):
         ).aggregate(avg=Avg("rating"))["avg"] or 0
 
         self.seller.rating = round(avg_rating, 2)
-        self.seller.save(update_fields=["rating"])
+        self.seller.seller_profile.save(update_fields=["rating"])
             
         def __str__(self):
             return f"{self.order} | {self.rating}"

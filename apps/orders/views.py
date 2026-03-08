@@ -24,6 +24,7 @@ class OrderView(generics.ListCreateAPIView):
     
 @extend_schema(tags=["Order"])
 class OrderDetailView(generics.RetrieveUpdateAPIView):
+    serializer_class = [OrderDetailSerializer]
     permission_classes = [permissions.IsAuthenticated, IsOrderParticipant]
     queryset = Order.objects.all()
 

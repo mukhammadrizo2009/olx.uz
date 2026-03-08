@@ -10,7 +10,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenRefreshView
 from drf_spectacular.utils import extend_schema
 
-from .serializers import TelegramAuthSerializer, UserProfileSerializer, SellerProfileSerializer
+from .serializers import TelegramAuthSerializer, UserProfileSerializer, SellerProfileSerializer, LogoutSerializer
 from .services import telegram_login
 
 from .models import SellerProfile
@@ -19,6 +19,7 @@ User = get_user_model()
 
 @extend_schema(tags=["Register & Login"])
 class TelegramLoginView(APIView):
+    serializer_class = TelegramAuthSerializer
 
     def post(self, request):
         serializer = TelegramAuthSerializer(data=request.data)
@@ -33,7 +34,7 @@ class TelegramLoginView(APIView):
             "access": result["access"],
             "refresh": result["refresh"],
         })
-       
+        
         
 @extend_schema(tags=["Profile"])       
 class ProfileView(APIView):
@@ -48,6 +49,7 @@ class ProfileView(APIView):
     
 @extend_schema(tags=["Register & Login"])       
 class LogoutView(APIView):
+    serializer_class = LogoutSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
