@@ -32,6 +32,7 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.first_name} | {self.role}"
 
+
 class SellerProfile(models.Model):
     
     Auth_User = settings.AUTH_USER_MODEL
