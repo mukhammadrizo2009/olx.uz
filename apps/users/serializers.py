@@ -1,7 +1,9 @@
 from rest_framework import serializers
-from rest_framework import serializers
+
 from .models import User, SellerProfile
 
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
 
 class TelegramAuthSerializer(serializers.Serializer):
     telegram_id = serializers.CharField()

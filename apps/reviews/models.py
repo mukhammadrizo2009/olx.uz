@@ -29,18 +29,18 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
 
-def save(self, *args, **kwargs):
-    if not self.seller:
-        self.seller = self.order.seller
+    def save(self, *args, **kwargs):
+        if not self.seller:
+            self.seller = self.order.seller
 
-    super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
-    avg_rating = Review.objects.filter(
-        seller=self.seller
-    ).aggregate(avg=Avg("rating"))["avg"] or 0
+        avg_rating = Review.objects.filter(
+            seller=self.seller
+        ).aggregate(avg=Avg("rating"))["avg"] or 0
 
-    self.seller.rating = round(avg_rating, 2)
-    self.seller.save(update_fields=["rating"])
-        
-    def __str__(self):
-        return f"{self.order} | {self.rating}"
+        self.seller.rating = round(avg_rating, 2)
+        self.seller.save(update_fields=["rating"])
+            
+        def __str__(self):
+            return f"{self.order} | {self.rating}"

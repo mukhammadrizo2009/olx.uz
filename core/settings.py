@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'apps.reviews.apps.ReviewsConfig',
     'apps.users.apps.UsersConfig',
     'apps.categories.apps.CategoriesConfig',
+    'apps.favorites.apps.FavoritesConfig',
     
     
     #Frameworks
