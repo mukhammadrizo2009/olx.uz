@@ -5,10 +5,8 @@ User = get_user_model()
 
 
 def telegram_login(data: dict):
-    """
-    Telegram orqali login yoki register qilish
-    """
-
+    
+    
     user, created = User.objects.get_or_create(
         telegram_id=data["telegram_id"],
         defaults={
